@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -11,7 +12,7 @@ import (
 	"github.com/gocolly/colly"
 )
 
-// info wtf
+// Info si the struct where sata gets stored
 type Info struct {
 	ID          int    `json:"id"`
 	Description string `json:"description"`
@@ -67,7 +68,14 @@ func main() {
 		enc := json.NewEncoder(os.Stdout)
 		enc.SetIndent("", " ")
 		enc.Encode(allInfos)
+		writeJSON(allInfos)
 	}
-	
+}
 
+func writeJSON(data []Info) {
+	dataFile, err := json.MarshalIndent(data, "", " ")
+	if err != nil {
+		log.Println("Could not create JSON")
+	}
+	ioutil.WriteFile(sub + " facts.json", dataFile, 0666)
 }
