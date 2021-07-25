@@ -20,6 +20,7 @@ type Info struct {
 
 var urlPath string
 var sub string
+var userResp string
 
 func main() {
 	
@@ -68,7 +69,12 @@ func main() {
 		enc := json.NewEncoder(os.Stdout)
 		enc.SetIndent("", " ")
 		enc.Encode(allInfos)
-		writeJSON(allInfos)
+		fmt.Print("Create JSON file? ")
+		fmt.Scanln(&userResp)
+		if strings.ToLower(userResp) == "y"{
+			writeJSON(allInfos)
+			fmt.Println(sub +"-facts.json created!")
+		}
 	}
 }
 
@@ -77,5 +83,5 @@ func writeJSON(data []Info) {
 	if err != nil {
 		log.Println("Could not create JSON")
 	}
-	ioutil.WriteFile(sub + " facts.json", dataFile, 0666)
+	ioutil.WriteFile(sub +"-facts.json", dataFile, 0666)
 }
